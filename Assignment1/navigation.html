@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+    <head bgcolor="">
+        <script src="https://kit.fontawesome.com/55f06ba673.js" crossorigin="anonymous"></script>
+        <style>
+            body {
+                background-color: rgb(160, 160, 160);
+                margin: 0;
+                padding: 0;
+                position: relative;
+
+            }
+            #header {
+                cursor: pointer;
+                text-align: left;
+                padding-top: 20px;
+            }
+            .menu {
+                text-align: center;
+                text-decoration: none;
+                height: 100%;
+                width: 25%;
+                position: fixed;
+                top: 15%;
+                background-color: rgb(80, 80, 80);
+            }
+            ul:hover
+            {
+                background-color:rgb(134, 134, 134);
+                color:rgb(31, 31, 31);
+                text-decoration: underline;
+            }
+            ul {
+                list-style-type: none;
+                background-color: rgb(80, 80, 80);
+                padding: 20px;
+                margin: 0;
+                color:rgb(216, 216, 216);
+                cursor: pointer;
+            }
+            .drop {
+                position: fixed;
+                background-color:rgb(216, 216, 216);
+                top: 15%;
+                left: 25%;
+                width: 75%;
+                height: 100%;
+            }
+            .sub {
+                font-size: 25px;
+                cursor: auto;
+                padding: 30px;
+                font-weight:bold;
+            }
+            button {
+                width: 100%;
+                height: 5%;
+                background-color: rgb(126, 126, 126);
+                border:none;
+                text-align: center;
+                font-size: 15px;
+            }
+            button:hover {
+                background-color: rgb(175, 175, 175);
+            }
+            a {
+                width: 100%;
+                height: 5%;
+                background-color: rgb(126, 126, 126);
+                border:none;
+                text-align: center;
+                font-size: 15px;
+            }
+            a:hover {
+                background-color: rgb(175, 175, 175);
+            }
+            i {
+                float:left;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <!--
+        
+        It seemed more appropriate to use a vertical sidebar for the grocery list
+        as the user does not have to download multiple images, the menu is scalable
+        to different resolutions, and mouseover functions are built-in. It also
+        appropriately addresses the need to display hierarchy of items.
+        
+        -->
+        
+        <form name="itemForm" method="get" action="itemView.php" target="topRightPanel">
+            <input id="itemNo" type="hidden" value="">
+        </form>
+        
+        <h1 id="header">Grocery List</h1>
+        
+        <div class="menu" id="sideMenu">
+                <div class="top"onmouseover="hover('FrozOp')" onmouseout="out('FrozOp')">
+                    <ul>
+                        <li class="start" id="Frozen"><i class="fas fa-ice-cream"></i>Frozen Food</li>
+                        <div class="drop" id="FrozOp" style="display:none;">
+                            <li class="sub">Sea Food</li>
+                                <button onclick="selectItem(1000)">Fish Fingers (500g)</button>
+                                <button onclick="selectItem(1001)">Fish Fingers (1000g)</button>
+                                <button onclick="selectItem(1003)">Shelled Prawns</button>
+                            <li class="sub">Milk Products</li>
+                                <button onclick="selectItem(1004)">Tub Ice Cream (1L)</button>
+                                <button onclick="selectItem(1005)">Tub Ice Cream (2L)</button>
+                            <li class="sub">Other</li>
+                                <button onclick="selectItem(1002)">Hamburger Patties</button>
+                        </div>
+                    </ul>
+                </div>
+                <div class="top" onmouseover="hover('FresOp')" onmouseout="out('FresOp')">
+                    <ul>
+                        <li class="start" id="Fresh"><i class="fas fa-apple-alt" align="left"></i>Fresh Food</li>
+                        <div class="drop" id="FresOp" style="display:none;">
+                            <li class="sub">Meat</li>
+                                <button onclick="selectItem(3002)">T'Bone Steak</button>
+                            <li class="sub">Cheese</li>
+                                <button onclick="selectItem(3000)">Cheddar Cheese (500g)</button>
+                                <button onclick="selectItem(3001)">Cheddar Cheese (1000g)</button>
+                            <li class="sub">Fruit</li>
+                                <button onclick="selectItem(3003)">Navel Oranges</button>
+                                <button onclick="selectItem(3004)">Bananas</button>
+                                <button onclick="selectItem(3006)">Grapes</button>
+                                <button onclick="selectItem(3007)">Apples</button>
+                                <button onclick="selectItem(3005)">Peaches</button>
+                        </div>
+                    </ul>
+                </div>
+                <div class="top" onmouseover="hover('BevOp')" onmouseout="out('BevOp')">
+                    <ul>
+                        <li class="start" id="Bev"><i class="fas fa-coffee"></i>Beverages</li>
+                        <div class="drop" id="BevOp" style="display:none;">
+                            <li class="sub">Coffee</li>
+                                <button onclick="selectItem(4003)">Coffee (200g)</button>
+                                <button onclick="selectItem(4004)">Coffee (500g)</button>
+                            <li class="sub">Tea Bags</li>
+                                <button onclick="selectItem(4000)">Earl Grey (25 pack)</button>
+                                <button onclick="selectItem(4001)">Earl Grey (100 pack)</button>
+                                <button onclick="selectItem(4002)">Earl Grey (200 pack)</button>
+                            <li class="sub">Other</li>
+                                <button onclick="selectItem(4005)">Chocolate Bar</button>
+                        </div>
+                    </ul>
+                </div>
+                <div class="top" onmouseover="hover('HomeOp')" onmouseout="out('HomeOp')">
+                    <ul>
+                        <li class="start" id="Home"><i class="fas fa-capsules"></i>Home Health</li>
+                        <div class="drop" id="HomeOp" style="display:none;">
+                            <li class="sub">Bathing</li>
+                                <button onclick="selectItem(2002)">Bath Soap</button>
+                            <li class="sub">First Aid</li>
+                                <button onclick="selectItem(2000)">Panadol (24 Pack)</button>
+                                <button onclick="selectItem(2001)">Panadol (50 Bottle)</button>
+                            <li class="sub">Laundry</li>
+                                <button onclick="selectItem(2005)">Washing Powder</button>
+                                <button onclick="selectItem(2006)">Laundry Bleach</button>
+                            <li class="sub">Kitchen</li>
+                                <button onclick="selectItem(2003)">Garbage Bags Small (Pack 10)</button>
+                                <button onclick="selectItem(2004)">Garbage Bags Large (Pack 50)</button>
+                        </div>
+                    </ul>
+                </div>
+                <div class="top" onmouseover="hover('PetOp')" onmouseout="out('PetOp')">
+                    <ul>
+                        <li class="start" id="Pet"><i class="fas fa-dog"></i>Pet Food</li>
+                        <div class="drop" id="PetOp" style="display:none;">
+                            <li class="sub">Bird</li>
+                                <button onclick="selectItem(5002)">Bird Food</button>
+                            <li class="sub">Cat</li>
+                                <button onclick="selectItem(5003)">Cat Food</button>
+                            <li class="sub">Dog</li>
+                                <button onclick="selectItem(5001)">Dry Dog Food (1kg)</button>
+                                <button onclick="selectItem(5000)">Dry Dog Food (5kg)</button>
+                            <li class="sub">Fish</li>
+                                <button onclick="selectItem(5004)">Fish Food</button>
+                        </div>
+                    </ul>
+                </div>
+        </div>
+
+        <script>
+            function hover(id) {
+                document.getElementById(id).style.display = "block";
+            }
+            
+            function out(id) {
+                document.getElementById(id).style.display = "none";
+            }
+        
+            function changeCategory(filename) {
+                document.getElementById("subcategory").src="images/" + filename + ".png";
+                document.getElementById("subcategory").useMap= "#" + filename + "_shapes";
+            }
+            
+            function selectItem(itemNumber) {
+                
+                parent.document.getElementById("topRightPanel").src = "itemView.php?itemNo=" + itemNumber;
+            }
+        </script>
+    </body>
+</html>
