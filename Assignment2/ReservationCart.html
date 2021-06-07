@@ -1,0 +1,332 @@
+<html>
+    
+        <head>
+        <link rel="stylesheet" href="stylesheet.css">
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+        
+    </head>
+    
+    <body>
+        
+        <div class="header">
+            <h1>Hertz UTS</h1>
+        </div>
+        
+        <div class="topnav">
+            <a href="main.html">Car Catalogue</a>
+            <a>Reservation Cart</a>
+        </div>
+        <div id='cartDiv' class='cartDiv'>
+            <table id='reservation-cart' class='main-table'>
+                <thead>
+                    <tr>
+                        <td>Thumbnail</td>
+                        <td>Vehicle</td>
+                        <td>Price per Day</td>
+                        <td>Rental Days</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+            
+        </div>
+        <div class='cart-warning' id='cartWarning'>
+                <div>
+                    <h2>Sorry, it appears you have nothing added to the cart!</h2>
+                    <button class='button-primary' onclick='showCatalogue()'>Return to Catalogue</button>
+                </div>
+            </div>
+        
+        <div id="checkoutWindow">
+            <h3>Payment and Customer Details</h3>
+            <div id="bookingPrice"></div>
+            <div>
+                Please fill out the fields accordingly. Required fields are marked with a <span class="required">*</span>
+            </div>
+            <form id="checkoutForm" action="EditCart.php">
+                <table class="form-information">
+                    <tr>
+                        <td>First Name <span class="required">*</span></td>
+                        <td><input name="checkoutInput" id="fname" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>Last Name <span class="required">*</span></td>
+                        <td><input name="checkoutInput" id="lname" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>Email Address <span class="required">*</span></td>
+                        <td><input name="checkoutInput" id="email" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>Address Line 1 <span class="required">*</span></td>
+                        <td><input name="checkoutInput" id="address1" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>Address Line 2</td>
+                        <td><input name="checkoutInput" id="address2" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>City <span class="required">*</span></td>
+                        <td><input name="checkoutInput" id="city" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>State <span class="required">*</span></td>
+                        <td>
+                            <select name="checkoutInput" id="state">
+                                <option value="nsw">New South Wales</option>
+                                <option value="queensland">Queensland</option>
+                                <option value="act">Australian Capital Territory</option>
+                                <option value="sa">South Australia</option>
+                                <option value="wa">Western Australia</option>
+                                <option value="nt">Northern Territory</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Post Code <span class="required">*</span></td>
+                        <td><input name="checkoutInput" id="post" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>Payment Type <span class="required">*</span></td>
+                        <td>
+                        <select id="payment">
+                            <option value="visa">VISA</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="credit">Credit Card</option>
+                        </select>
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    <button id="return" class="button-primary" type="button" onclick="displayTable()">Back</button>
+                    <button id="confirmCheckout" class="button-primary" type="button" onclick="showReceipt()">Confirm</button>
+                </div>
+            </form>
+        </div>
+        
+        <div id="bookingReceipt" class="form-information">
+            <h2>Receipt</h2>
+            <table id="costTable" class='main-table'>
+                <thead>
+                    <tr><td>Vehicle</td><td>Price Per Day</td><td>Total Costs</td></tr>
+                </thead>
+            </table>
+            <h2>Billing Details</h2>
+            <table id="bookingTable" class='main-table'>
+                
+            </table>
+            <button id="return" class="button-primary" type="button" onclick="finishBooking()">Return to catalogue</button>
+        </div>
+        
+        <script type="text/javascript">
+            
+            var carCatalogue = JSON.parse(localStorage.getItem("carCatalogue"));
+            var cart = [];
+            
+            $(document).ready(function() {
+                $("#bookingReceipt").hide();
+                $("#checkoutWindow").hide();
+                $("#cartDiv").show();
+                $("#cartWarning").hide();
+                
+                
+                
+                loadTable();
+            });
+            
+            // Reservation Cart functionality:
+            //      loadTable()
+            //      displayTable()
+            //      removeFromCart()
+            //      clearCart()
+            
+            function loadTable() {
+                $.getJSON("GetSession.php", function(data) {
+                    cart = data;
+                    displayTable();
+                });
+            }
+            
+            function displayTable() {
+                $("#reservation-cart").empty();
+                if (cart.length == 0 || cart == null) {
+                    $("#cartDiv").hide();
+                    $("#cartWarning").show();
+                    $("#checkoutWindow").hide();
+                } else {
+                    $("#cartDiv").show();
+                    $("#cartWarning").hide();
+                    $("#checkoutWindow").hide();
+                    
+                    var tableHead = "<thead><tr><th>Thumbnail</th><th>Vehicle</th><th>Price per Day</th><th>Rental Days</th><th>Actions</th></tr></thead>";
+                    $("#reservation-cart").append(tableHead);
+                    for (var i = 0; i < cart.length; i++) {
+                        var htmlTxt = "<tbody><tr id='" + cart[i].ID + "'>" +
+                            "<td><img src='images/" + cart[i].Model + ".jpg'></td>" +
+                            "<td>" + cart[i].Brand + " " + cart[i].Model + " " + cart[i].Year + "</td>" +
+                            "<td>" + cart[i].Price + "</td>" +
+                            "<td><input type='text' id='rentalDays" + cart[i].ID + "' value='" + cart[i].rentalDays + "'></td>" +
+                            "<td><button id='btn" + cart[i].ID + "' class='button-primary' onclick='removeFromCart(" + cart[i].ID + ")'>Remove</button></td>" +
+                            "</tr></tbody>";
+                        $("#reservation-cart").append(htmlTxt);
+                    }
+                    $("#cartDiv").append("<button class='button-primary' onclick='showCatalogue()'>Return to Catalogue</button>" +
+                        "<button class='button-primary' onclick='checkout()'>Proceed to Checkout</button>");
+                }
+            }
+            
+            // Removes the selected vehicle from the session and reloads the table contents.
+            // https://stackoverflow.com/questions/11536271/validate-dynamically-added-input-fields
+            function removeFromCart(carID) {
+                $.ajax({
+                    url: "EditCart.php",
+                    data: {removeCar: carID}
+                });
+                $("table#reservation-cart tr#" + carID + "").remove();
+                if ($("table#reservation-cart tbody tr").length == 0) {
+                    $("#cartDiv").hide();
+                    $("#cartWarning").show();
+                } else {
+                    $("#cartDiv").show();
+                    $("#cartWarning").hide();
+                }
+            }
+            
+            function clearCart() {
+                $.ajax({
+                    url: "EditCart.php",
+                    data: {clear: ""}
+                });
+                $("#reservation-cart").empty();
+                $("#cartDiv").hide();
+                $("#cartWarning").show();
+            }
+            
+            // Checkout
+            
+            // Checks if the cart is empty and if the rental days for cars in the cart are greater > 0
+            function checkout() {
+                var inputField;
+                var invalid = false;
+                
+                if ($('#reservation-cart tr').length == 1) {
+                    alert('No car has been reserved.');
+                } else {
+                    
+                    // Test if input is valid
+                    $.each(cart, function(idx, car) {
+                        inputField = document.getElementById("rentalDays" + car.ID).value;
+                        if (isNaN(inputField) || inputField <= 0) {
+                            invalid = true;
+                            alert("Make sure selected rental days are a number greater than 0. ");
+                            return false;
+                        }
+                    });
+                    
+                    
+                    // If input is valid, show the checkout form
+                    
+                    var totalCost = 0;
+                    if (!invalid) {
+                        
+                        $.each(cart, function(idx, car) {
+                            car.rentalDays = parseInt(document.getElementById("rentalDays" + car.ID).value);
+                            totalCost += car.Price * document.getElementById("rentalDays" + car.ID).value;
+                        });
+                        newCart = JSON.stringify(cart);
+                        $.ajax({
+                            url: "EditCart.php",
+                            data: {checkout: newCart}
+                        });
+                        
+                        
+                        $("#bookingPrice").append("The total cost of your booking will be $" + totalCost + ".");
+                        
+                        $("#bookingReceipt").hide();
+                        $("#checkoutWindow").show();
+                        $("#cartDiv").hide();
+                    }
+                }
+            }
+            
+            function validateCheckoutForm() {
+                
+                // Check if the email is valid
+                const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if ( !re.test($("#email").val())) {
+                    alert("Email is invalid")
+                    return false;
+                }else if (!$("#fname").val()) {
+                    alert("Please enter your first name")
+                    return false;
+                }else if (!$("#lname").val()) {
+                    alert("Please enter your last name")
+                    return false;
+                }else if (!$("#address1").val()) {
+                    alert("Please enter your address")
+                    return false;
+                }else if (!$("#city").val()) {
+                    alert("Please enter your city")
+                    return false;
+                }else if (!$("#state").val()) {
+                    alert("Please enter your state")
+                    return false;
+                }else if (!$("#post").val()) {
+                    alert("Please enter your post code")
+                    return false;
+                }else if (!$("#payment").val()) {
+                    alert("Please enter your payment type")
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            
+            function showCatalogue() {
+                window.open("main.html","_self")
+            }
+            
+            function showReceipt() {
+                // Validate checkout form
+                if (validateCheckoutForm()) {
+                    // If all required fields are correct then...
+                    //$.post('EditCart.php' + $('#checkoutForm').serialize());
+                    var totalCost = 0;
+                    $.each(cart, function(idx, obj) {
+                        var cost = obj.Price * obj.rentalDays;
+                        totalCost += cost;
+                        $("#costTable").append("<tr><td>" + obj.Brand + " " + obj.Model + " " + obj.Year + "</td>" +
+                        "<td>" + obj.Price + "</td>" +
+                        "<td>" + cost + "</td></tr>");
+                    });
+                    $("#costTable").append("<tr><td>Total Cost</td><td></td><td>" + totalCost + "</td></tr>");
+                    
+                    // For this assignment I am not submitting the booking details and storing them on the server as it is unnecessary
+                    // I am just displaying the inputs back to the user as part of their receipt
+                    
+                    var bookingDetails = document.getElementsByName("checkoutInput");
+                    
+                    $("#bookingTable").append("<tr><td>Booking Name</td><td>" + bookingDetails[0].value + " " + bookingDetails[1].value + "</td></tr>" +
+                    "<tr><td>Email</td><td>" + bookingDetails[2].value + "</td></tr>" +
+                    "<tr><td>Address</td><td>" + bookingDetails[3].value + ", " + bookingDetails[5].value + ", " + bookingDetails[6].value + ", " + bookingDetails[7].value + "</td></tr>");
+                    
+                    $("#bookingReceipt").show();
+                    $("#checkoutWindow").hide();
+                    $("#cartDiv").hide();
+                }
+                
+            }
+            
+            function finishBooking() {
+                clearCart();
+                window.open("main.html","_self")
+            }
+        </script>
+        
+    </body>
+    
+</html>

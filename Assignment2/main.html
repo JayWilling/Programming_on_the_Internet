@@ -1,0 +1,91 @@
+<html>
+    
+    <head>
+        <link rel="stylesheet" href="stylesheet.css">
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+        
+    </head>
+    
+    <body>
+        
+        <!--
+        Main Car Catalogue View
+        -->
+        <div class="header">
+            <h1>Hertz UTS</h1>
+        </div>
+        
+        <div class="topnav">
+            <a>Car Catalogue</a>
+            <a href="ReservationCart.html">Reservation Cart</a>
+        </div>
+        
+        <div id="catalogueDisplay" class="flex-container">
+
+        </div>
+        
+        <script type="text/javascript">
+            
+            var carCatalogue = [];
+            
+            $(document).ready(function() {
+                loadCars();
+            });
+            
+            function loadCars() {
+                $.getJSON("cars.json", function(data) {
+                    carCatalogue = data.cars;
+                    localStorage.setItem("carCatalogue", JSON.stringify(carCatalogue));
+                    displayCars();
+                });
+            }
+            
+            function displayCars() {
+                $.each(carCatalogue, function(idx, obj) {
+                    $("#catalogueDisplay").append("<div class='car-item'>" +
+                        "<div class='car-image'>" +
+                            "<img src='images/" + obj.Model + ".jpg'>" +
+                        "</div>" +
+                        "<div class='car-information'>" +
+                            "<table class='car-details'>" +
+                            "<tr><td>Model: </td><td>" + obj.Brand + " " + obj.Model + " " + obj.Year + "</td></tr>" +
+                            "<tr><td>Category: </td><td>" + obj.Category + "</td></tr>" +
+                            "<tr><td>Mileage: </td><td>" + obj.Mileage + "</td></tr>" +
+                            "<tr><td>Fuel Type: </td><td>" + obj.Fuel + "</td></tr>" +
+                            "<tr><td>Seats: </td><td>" + obj.Seats + "</td></tr>" +
+                            "<tr><td>Price: </td><td>$" + obj.Price + "</td></tr>" +
+                            "<tr><td>Description: </td><td>" + obj.Description + "</td></tr>" +
+                            "<tr><td>Availability: </td><td>" + obj.Availability + "</td></tr>" +
+                            "</table>" +
+                            "<button class='button-primary' onclick='addToCart(" + obj.ID + ")'>Add to cart</button>" +
+                        "</div>" +
+                    "</div>");
+                });
+            }
+            
+            function addToCart(carID) {
+                // Check vehicles availability
+                $.each(carCatalogue, function(idx, car) {
+                    var newCar = car;
+                    newCar.rentalDays = 0;
+                    newCar = JSON.stringify(newCar);
+                    if (carID == car.ID) {
+                        if (car.Availability == "Y") {
+                            // Add car to cart
+                            $.ajax({
+                                url: "EditCart.php",
+                                data: {newCar: newCar}
+                            });
+                            alert("Car added to reservation cart");
+                        } else {
+                            alert("That car is not available at this time, please choose another.")
+                        }
+                    }
+                });
+            }
+        </script>
+        
+    </body>
+    
+</html>

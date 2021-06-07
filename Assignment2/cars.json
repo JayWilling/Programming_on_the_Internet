@@ -1,0 +1,143 @@
+{
+    "cars" : [
+        {
+            "ID" : "1",
+            "Category" :  "sedan",
+            "Availability" : "N",
+            "Brand" : "Toyota",
+            "Model" : "Camry",
+            "Year" : "2013",
+            "Mileage" : "10000",
+            "Fuel" : "Petrol",
+            "Seats" : "5",
+            "Price" : "125",
+            "Description" : "Nice ride, limited use. Great as a first car."
+        },
+        
+        {
+            "ID" : "2",
+            "Category" :  "SUV",
+            "Availability" : "N",
+            "Brand" : "Holden",
+            "Model" : "Captiva",
+            "Year" : "2010",
+            "Mileage" : 25000,
+            "Fuel" : "Diesel",
+            "Seats" : 5,
+            "Price" : 100,
+            "Description" : "Good car can haul ass when you need it to."
+        },
+        
+        {
+            "ID" : "3",
+            "Category" :  "sedan",
+            "Availability" : "N",
+            "Brand" : "BMW",
+            "Model" : "320i",
+            "Year" : "2015",
+            "Mileage" : 2000,
+            "Fuel" : "Petrol",
+            "Seats" : 5,
+            "Price" : 200,
+            "Description" : "This car will make you feel like James Bond, with money to spare for the casino."
+        },
+        
+        {
+            "ID" : "4",
+            "Category" :  "SUV",
+            "Availability" : "Y",
+            "Brand" : "Jeep",
+            "Model" : "Cherokee",
+            "Year" : "2010",
+            "Mileage" : 25000,
+            "Fuel" : "Diesel",
+            "Seats" : 5,
+            "Price" : 125,
+            "Description" : "Good car can haul ass when you need it to."
+        },
+        
+        {
+            "ID" : "5",
+            "Category" :  "SUV",
+            "Availability" : "Y",
+            "Brand" : "Honda",
+            "Model" : "Civic",
+            "Year" : "2010",
+            "Mileage" : 60000,
+            "Fuel" : "Petrol",
+            "Seats" : 5,
+            "Price" : 110,
+            "Description" : "She's seen some better days... is how I would describe my wife."
+        },
+        
+        {
+            "ID" : "6",
+            "Category" :  "SUV",
+            "Availability" : "Y",
+            "Brand" : "Mercedes",
+            "Model" : "GLC",
+            "Year" : "2017",
+            "Mileage" : 1000,
+            "Fuel" : "Diesel",
+            "Seats" : 5,
+            "Price" : 125,
+            "Description" : "This baby's a beast. If you ever wondered where the benz in Mercedes came from, this one'll give it to you."
+        },
+        
+        {
+            "ID" : "7",
+            "Category" :  "sedan",
+            "Availability" : "Y",
+            "Brand" : "Volkswagen",
+            "Model" : "Golf",
+            "Year" : "2010",
+            "Mileage" : 55000,
+            "Fuel" : "Petrol",
+            "Seats" : 5,
+            "Price" : 125,
+            "Description" : "Don't worry if you don't play golf. This driver'll show you how to get that touchdown."
+        },
+        
+        {
+            "ID" : "8",
+            "Category" :  "SUV",
+            "Availability" : "Y",
+            "Brand" : "Suzuki",
+            "Model" : "Jimny",
+            "Year" : "2006",
+            "Mileage" : 100000,
+            "Fuel" : "Petrol",
+            "Seats" : 5,
+            "Price" : 10,
+            "Description" : "When you bring home your first girlfriend and dad says 'You can do better son'. She's good for a ride or two but that's about it."
+        },
+        
+        {
+            "ID" : "9",
+            "Category" :  "sedan",
+            "Availability" : "Y",
+            "Brand" : "Hyundai",
+            "Model" : "Sonata",
+            "Year" : "2007",
+            "Mileage" : 50000,
+            "Fuel" : "Petrol",
+            "Seats" : 5,
+            "Price" : 125,
+            "Description" : "Why get a car when you could just walk? Because it's cars like this that make you realise how cumbersome legs are."
+        },
+        
+        {
+            "ID" : "10",
+            "Category" :  "SUV",
+            "Availability" : "Y",
+            "Brand" : "Nissan",
+            "Model" : "X-trail",
+            "Year" : "2015",
+            "Mileage" : 25000,
+            "Fuel" : "Diesel",
+            "Seats" : 5,
+            "Price" : 150,
+            "Description" : "What's the difference between girl scouts and jews? Girl scouts come back from camp, which is what you'll be doing with this Nissan X-trail."
+        }
+    ]
+}
